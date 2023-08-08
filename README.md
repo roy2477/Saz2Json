@@ -24,7 +24,7 @@ python Saz2Json.py <saz_file_path> <output_folder> [<list of domains>]
 - `list of domains` _(optional)_ is a white list of domains that you want the script to digest. Make sure that you enter it as one argument - e.g. "['www.google.com', 'www.domain.com']".
 
 ### Message Body Parsing
-If you wish to add specific parsing features to the message bodies I've left unimplemented functions that you can fill in.<br>
+If you wish to add specific message bodies parsing features, I've left two unimplemented functions that you can implement yourself.<br>
 Notice `request_custom_parse_body` and `response_custom_parse_body` functions and use them as you like. Their output will be added to the JSON file. 
 
 ## License
