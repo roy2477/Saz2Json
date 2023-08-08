@@ -8,7 +8,7 @@ The "Saz2Json" project is a specialized Python tool tailored for network researc
 
 ## Features
 
-- Converts SAZ files to a folder contains JSON format files.
+- Converts SAZ files to a folder containing JSON format files.
 - Retains request and response details.
 - Lightweight and easy-to-use.
 
@@ -20,7 +20,7 @@ python Saz2Json.py <saz_file_path> <output_folder> [<list of domains>]
 
 - `saz_file_path` is the path to the .saz file that you wish to convert.
 - `output_folder` is the name of the target folder that will contain the JSON files (file per session).
-- `list of domains` _(optional)_ is a white list of domains that you want the script to digest. Make sure that you enters it as one argument - e.g. "['www.google.com', 'www.domain.com']".
+- `list of domains` _(optional)_ is a white list of domains that you want the script to digest. Make sure that you enter it as one argument - e.g. "['www.google.com', 'www.domain.com']".
 
 ## License
 
