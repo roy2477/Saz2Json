@@ -41,18 +41,28 @@ def parse_headers(content):
     return parsed_headers, time_sent
 
 
-def parse_body(content):
+def get_body(content):
     # Get rid of the headers
     body = content.split(b'\x0d\x0a\x0d\x0a')[1:]
-    body = b'\x0d\x0a\x0d\x0a'.join(body).hex()
+    body = b'\x0d\x0a\x0d\x0a'.join(body)
 
     return body
 
 
-def parse_saz_file(file_path, output_folder):
+# Add your own implementation for parsing the body for your own needs
+def request_custom_parse_body(body):
+    return ''
+
+
+# Add your own implementation for parsing the body for your own needs
+def response_custom_parse_body(body):
+    return ''
+
+
+def parse_saz_file(file_path, output_folder_name):
     # Create output folder if it doesn't exist
-    if not os.path.exists(output_folder):
-        os.makedirs(output_folder)
+    if not os.path.exists(output_folder_name):
+        os.makedirs(output_folder_name)
 
     with ZipFile(file_path, 'r') as saz_zip:
         # Extract the sessions files from the .saz archive
@@ -82,7 +92,9 @@ def parse_saz_file(file_path, output_folder):
                 session_data['parsed_request']['headers'], time_sent = parse_headers(content)
                 if time_sent != '':
                     session_data['time'] = time_sent
-                session_data['parsed_request']['body_hex'] = parse_body(content)
+                body = get_body(content)
+                session_data['parsed_request']['body_hex'] = body.hex()
+                session_data['parsed_request']['custom_parsed_body'] = request_custom_parse_body(body)
 
             # Parse response
             with saz_zip.open(session_tuple['response']) as res:
@@ -94,11 +106,13 @@ def parse_saz_file(file_path, output_folder):
                 session_data['parsed_response']['headers'], time_sent = parse_headers(content)
                 if time_sent != '' and session_data['time'] == '':
                     session_data['time'] = time_sent
-                session_data['parsed_response']['body_hex'] = parse_body(content)
+                body = get_body(content)
+                session_data['parsed_response']['body_hex'] = body.hex()
+                session_data['parsed_response']['custom_parsed_body'] = response_custom_parse_body(body)
 
             # Dump session data to a file
             filename = 'session' + res.name.split('raw/')[1].split('_')[0] + '.json'
-            file_path = os.path.join(output_folder, filename)
+            file_path = os.path.join(output_folder_name, filename)
 
             json_object = json.dumps(session_data, indent=4)
             with open(file_path, 'w') as json_file:
