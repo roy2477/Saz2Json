@@ -4,6 +4,7 @@ import datetime
 import json
 from zipfile import ZipFile
 from pytz import timezone
+import ast
 
 # Defaults
 domains = []
@@ -105,12 +106,14 @@ def parse_saz_file(file_path, output_folder):
 
 
 # Check if all arguments are provided
-if len(sys.argv) != 3:
-    print("[!] Usage: python " + sys.argv[0] + " <saz_file_path> <output_folder>")
+if len(sys.argv) < 3 or len(sys.argv) > 4:
+    print("[!] Usage: python " + sys.argv[0] + " <saz_file_path> <output_folder> [<list of domains>]")
     exit()
 
 else:
     saz_file_path = sys.argv[1]
     output_folder = sys.argv[2]
+    if len(sys.argv) == 4:
+        domains = ast.literal_eval(sys.argv[3])
 
 parse_saz_file(saz_file_path, output_folder)
